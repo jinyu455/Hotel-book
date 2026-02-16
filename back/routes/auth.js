@@ -6,6 +6,8 @@ const jwt=require('jsonwebtoken');
 router.post('/register',async(req,res)=>{
     try{
         const{username,password,role}=req.body;
+        const exist=await User.fingOne({username});
+        if(exist)return res.status(400).json({msg:'用户名已存在'});
         const user=new User({username,password,role});
         await user.save();
         res.status(201).json({msg:'注册成功'});
@@ -17,7 +19,7 @@ router.post('/register',async(req,res)=>{
 router.post('/login',async(req,res)=>{
     try{
         const{username,password}=req.body;
-        const user=awaitUser.findOne({username});
+        const user=await User.findOne({username});
         if(!user)return res.status(400).json({msg:'用户不存在'});
         const isMarch=user.comparePassword(password);
         if(!isMarch)return res.status(400).json({msg:'密码错误'});

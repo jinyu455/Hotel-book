@@ -37,6 +37,6 @@ router.put('/:id/audit',auth,async(req,res)=>{
         {status,rejectReason},
         {new:true}
     );
-    req.json(hotel);
+    res.json(hotel);
 })//审核
 module.exports=router;
