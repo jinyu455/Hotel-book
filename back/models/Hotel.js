@@ -9,7 +9,7 @@ const hotelSchema=new mongoose.Schema({
     facilities:[String],
     images:[String],
     rooms:[{
-        type:String,
+        type:{type:String},
         price:Number,
         stock:Number
     }],
