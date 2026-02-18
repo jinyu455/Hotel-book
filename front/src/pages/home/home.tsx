@@ -1,5 +1,5 @@
 import {useState,useEffect} from 'react'
-import {View,Text,Swiper,SwiperItem,Image,Input,Button,Navigator} from '@tarojs/components'
+import {View,Text,Swiper,SwiperItem,Image,Input,Button,Navigator, Picker} from '@tarojs/components'
 import Taro from '@tarojs/taro'
 import './home.scss'
 interface Hotel{
@@ -16,52 +16,19 @@ const Home=()=>{
     const[keyword,setKeyword]=useState('');
     const[checkIn,setCheckIn]=useState(new Date());
     const [checkOut,setCheckOut]=useState(new Date(Date.now()+86400000));
-    /*useEffect(()=>{
+    useEffect(()=>{
         const fetchBanners=async()=>{
             try{
-                const res=await fetch('http://localhost:5000/api/hotels?star=4,5');
-                const data=await res.json();
+                const res=await Taro.request({url:'http://localhost:5000/api/hotels?star=4,5',method:'GET'});
+                const data=await res.data;
                 setBanners(data.slice(0,5))
             }catch(e){
                 console.error('获取Banner失败',e);
             }
         }
         fetchBanners();
-    },[])*/
+    },[])
 
-    useEffect(() => {
-  // 本地模拟数据，直接能用
-  const mockData = [
-    {
-      _id: '1',
-      name: '北京豪华酒店',
-      // 👇 这些是小程序支持的图片地址
-      images: ['https://picsum.photos/800/450?random=1'],
-      city: '北京',
-      star: 5,
-      address: '北京市中心',
-    },
-    {
-      _id: '2',
-      name: '上海外滩酒店',
-      images: ['https://picsum.photos/800/450?random=2'],
-      city: '上海',
-      star: 4,
-      address: '上海外滩',
-    },
-    {
-      _id: '3',
-      name: '广州精品酒店',
-      images: ['https://picsum.photos/800/450?random=3'],
-      city: '广州',
-      star: 5,
-      address: '广州天河区',
-    },
-  ]
-
-  // 直接设置，不请求后端
-  setBanners(mockData)
-}, [])
 
     const handleSearch=()=>{
         const params=new URLSearchParams({
@@ -97,9 +64,26 @@ const Home=()=>{
                 </View>
                 <View className='search-item date-item'>
                     <Text className='label'>入住</Text>
-                    <Text className='date-text' onClick={()=>{}}>{checkIn.toLocaleDateString()}</Text>
+                    <Picker mode='date' value={checkIn.toISOString().split('T')[0]} onChange={(e)=>{
+                        const selected=new Date(e.detail.value);
+                        setCheckIn(selected);
+                        if(selected>=checkOut){
+                            setCheckOut(new Date(selected.getTime()+86400000));
+                        }
+                    }}>
+                        <Text className='date-text' onClick={()=>{}}>{checkIn.toLocaleDateString()}</Text>
+                    </Picker>
                     <Text className='label'>退房</Text>
-                    <Text className='date-text' onClick={()=>{}}>{checkOut.toLocaleDateString()}</Text>
+                    <Picker mode='date' value={checkOut.toISOString().split('T')[0]} onChange={(e)=>{
+                        const selected=new Date(e.detail.value);
+                        setCheckIn(selected);
+                        if(selected<=checkIn){
+                            Taro.showToast({title:'退房不能早于入住',icon:'none'});
+                            return;
+                        }
+                    }}>
+                        <Text className='date-text' onClick={()=>{}}>{checkOut.toLocaleDateString()}</Text>
+                    </Picker>
                 </View>
                 <Button className='search-btn' onClick={handleSearch}>查询酒店</Button>
             </View>

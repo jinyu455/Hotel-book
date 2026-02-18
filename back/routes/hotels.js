@@ -7,7 +7,10 @@ router.get('/',async(req,res)=>{
     const{city,star,minPrice,maxPrice}=req.query;
     let filter={status:'approved'};
     if(city)filter.city=city;
-    if(star)filter.star=star;
+    if(star){
+        const starArray=star.split(',').map(Number);
+        filter.star={$in:starArray};
+    }
     if(minPrice&&maxPrice){
         filter['rooms.price']={$gte:minPrice,$lte:maxPrice};
     }

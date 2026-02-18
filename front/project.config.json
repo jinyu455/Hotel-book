@@ -4,7 +4,7 @@
   "description": "Hotel booking platform based on Taro",
   "appid": "touristappid",
   "setting": {
-    "urlCheck": true,
+    "urlCheck": false,
     "es6": false,
     "enhance": false,
     "compileHotReLoad": false,
