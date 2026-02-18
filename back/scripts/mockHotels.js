@@ -1,15 +1,11 @@
 const mongoose = require('mongoose');
-const Hotel = require('../models/Hotel.js'); // 确保路径正确
-console.log('1. 脚本开始执行...');
-console.log('2. 正在连接数据库: mongodb://127.0.0.1:27017/smart-travel-hotel');
-// 1. 连接数据库（替换成你的数据库地址）
+const Hotel = require('../models/Hotel.js');
+
 mongoose.connect('mongodb://localhost:27017/smart-travel-hotel') 
   .then(async () => {
-    console.log('3. ✅ 数据库连接成功');
-
-    console.log('4. 开始清空原有数据...');
+    console.log('✅ 数据库连接成功');
     await Hotel.deleteMany({});
-    console.log('5. 🗑️  原有酒店数据已清空');
+    console.log('🗑️  原有酒店数据已清空');
     const mockHotels = [
       {
         name: '北京豪华酒店',
@@ -26,7 +22,7 @@ mongoose.connect('mongodb://localhost:27017/smart-travel-hotel')
           { type: '豪华大床房', price: 688, stock: 10 },
           { type: '行政套房', price: 1288, stock: 3 }
         ],
-        merchantId: new mongoose.Types.ObjectId(), // 模拟一个商户ID
+        merchantId: new mongoose.Types.ObjectId(),
         status: 'approved'
       },
       {
@@ -65,9 +61,8 @@ mongoose.connect('mongodb://localhost:27017/smart-travel-hotel')
         merchantId: new mongoose.Types.ObjectId(),
         status: 'approved'
       }
-    ];
+    ];//ai生成的数据
 
-    // 4. 执行插入
     const docs = await Hotel.insertMany(mockHotels);
     console.log(`✅ 成功插入 ${docs.length} 条酒店 mock 数据！`);
     process.exit(0);
