@@ -12,7 +12,13 @@ router.get('/',async(req,res)=>{
         filter.star={$in:starArray};
     }
     if(minPrice&&maxPrice){
-        filter['rooms.price']={$gte:minPrice,$lte:maxPrice};
+        const min=Number(minPrice);
+        const max=Number(maxPrice);
+        filter.rooms={
+            $elemMatch:{
+                price:{$gte:min,$lte:max}
+            }
+        }
     }
     if(facilities){
         const facilitiesArray=facilities.split(',');
@@ -26,7 +32,12 @@ router.get('/',async(req,res)=>{
         const limit=Number(pageSize);
         const skip=(currentPage-1)*limit;
         const hotels=await Hotel.find(filter).skip(skip).limit(limit);//分页
-        res.json(hotels);
+        const hotelsWithPrice=hotels.map(hotel=>{
+            const hotelObj=hotel.toObject();
+            hotelObj.price=hotel.rooms?.[0]?.price||0;
+            return hotelObj;
+        });
+        res.json(hotelsWithPrice);
     }catch(e){
         res.status(500).json({msg:'查询失败',e});
     }

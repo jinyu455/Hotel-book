@@ -20,7 +20,7 @@ const List=()=>{
     const [keyword,setKeyword]=useState('');
 
     const [minPrice,setMinPrice]=useState(0);
-    const [maxPrice,setMaxPrice]=useState(10000);
+    const [maxPrice,setMaxPrice]=useState(2000);
     const [star,setStar]=useState<number[]>([]);
     const [facilities,setFacilities]=useState<string[]>([])
 
@@ -42,10 +42,11 @@ const List=()=>{
         }
         
         const cityParam=params.get('city')||'北京';
+        const decodeCity=decodeURIComponent(cityParam);
         const checkInParam=params.get('checkIn');
         const checkOutParam=params.get('checkOut');
         const keywordParam=params.get('keyword')||'';
-        setCity(cityParam);
+        setCity(decodeCity);
         if(checkInParam)setCheckIn(new Date(checkInParam));
         if(checkOutParam)setCheckOut(new Date(checkOutParam));
         setKeyword(keywordParam);
@@ -103,4 +104,84 @@ const List=()=>{
             setStar([...star,s]);
         }
     }
+
+    return(
+        <View className='list-page'>
+            <View className='top-filter'>
+                <View className='filter-item'>
+                    <Text>城市:{city}</Text>
+                </View>
+                <View className='filter-item'>
+                    <Text>入住:{checkIn.toLocaleDateString()}</Text>
+                </View>
+                <View className='filter-item'>
+                    <Text>退房:{checkOut.toLocaleDateString()}</Text>
+                </View>
+                <View className='filter-item'>
+                    <Text>夜数:{Math.round((checkOut.getTime()-checkIn.getTime())/(86400000))}晚</Text>
+                </View>
+            </View>
+            
+            <View className='detail-filter'>
+                <View className='filter-section'>
+                    <Text className='section-title'>价格区间</Text>
+                    <View className='price-range'>
+                        <Text>{minPrice}元</Text>
+                        <Text>-</Text>
+                        <Text>{maxPrice}元</Text>
+                    </View>
+                    <View className='price-options'>
+                        <View 
+                            className={`price-btn ${minPrice === 0 && maxPrice === 300 ? 'active' : ''}`}
+                            onClick={() => { setMinPrice(0); setMaxPrice(300); }}>300以下</View>
+                        <View 
+                            className={`price-btn ${minPrice === 300 && maxPrice === 700 ? 'active' : ''}`}
+                            onClick={() => { setMinPrice(300); setMaxPrice(700); }}>300-700</View>
+                        <View 
+                            className={`price-btn ${minPrice === 700 && maxPrice === 2000 ? 'active' : ''}`}
+                            onClick={() => { setMinPrice(700); setMaxPrice(2000); }}>700以上</View>
+                    </View>
+
+                </View>
+                <View className='filter-section'>
+                    <Text className='section-title'>酒店星级</Text>
+                    <View className='star-options'>
+                        {[5,4,3,2].map(s=>(
+                            <View key={s} className={`star-btn ${star.includes(s)?'active':''}`} onClick={()=>handleStarChange(s)}>{s}星</View>
+                        ))}
+                    </View>
+                </View>
+                <View className='filter-section'>
+                    <Text className='section-title'>设施服务</Text>
+                    <CheckboxGroup onChange={handleFacilityChange}>
+                        <View className='facility-item'>
+                            <Checkbox value='wifi'>免费WIFI</Checkbox>
+                            <Checkbox value='parking'>免费停车</Checkbox>
+                            <Checkbox value='breakfast'>含早餐</Checkbox>
+                            <Checkbox value='gym'>健身房</Checkbox>
+                        </View>
+                    </CheckboxGroup>
+                </View>
+            </View>
+
+            <ScrollView className='hotel-list' scrollY>
+                {hotels.map(hotel=>(
+                    <Navigator key={hotel._id} url={`/pages/detail?id=${hotel._id}&checkIn=${checkIn.toISOString()}&checkOut=${checkOut.toISOString()}`}>
+                        <View className='hotel-item'>
+                            <Image className='hotel-img' src={hotel.images[0]} mode='aspectFill'/>
+                            <View className='hotel-info'>
+                                <Text className='hotel-name'>{hotel.name}</Text>
+                                <Text className='hotel-star'>{hotel.star}星</Text>
+                                <Text className='hotel-address'>{hotel.address}</Text>
+                                <Text className='hotel-price'>{hotel.price}</Text>
+                            </View>
+                        </View>
+                    </Navigator>
+                ))}
+                {loading&&<Text>加载中...</Text>}
+                {!hasMore&&<Text>没有更多了</Text>}
+            </ScrollView>
+        </View>
+    )
 }
+export default List;

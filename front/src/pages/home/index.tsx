@@ -30,17 +30,11 @@ const Home=()=>{
     },[])
 
 
-    const handleSearch=()=>{
-        const params=new URLSearchParams({
-            city,
-            checkIn:checkIn.toISOString(),
-            checkOut:checkOut.toISOString(),
-            keyword,
-        })
-        Taro.navigateTo({
-            url:`/pages/list?${params.toString()}`
-        })
+    const handleSearch = () => {
+        const url = `/pages/list/index?city=${encodeURIComponent(city)}&checkIn=${checkIn.toISOString()}&checkOut=${checkOut.toISOString()}&keyword=${encodeURIComponent(keyword)}`;
+        Taro.navigateTo({ url });
     }
+    
     return(
         <View className ='home-page'>
             <Swiper className='banner-swiper' autoplay circular indicatorDots indicatorColor='#999' indicatorActiveColor='#fff'>
