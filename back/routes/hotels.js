@@ -41,7 +41,20 @@ router.get('/',async(req,res)=>{
     }catch(e){
         res.status(500).json({msg:'查询失败',e});
     }
-});//查酒店
+});//筛查全部酒店
+
+router.get('/:id',async(req,res)=>{
+    try{
+        const hotel=await Hotel.findById(req.params.id);
+        if(!hotel){
+            return res.status(404).json({msg:'酒店不存在'});
+        }
+        hotel.rooms.sort((a,b)=>a.price-b.price);
+        res.json(hotel);
+    }catch(e){
+        res.status(500).json({msg:'查询失败',e});
+    }
+});//查某个酒店详情
 
 router.post('/',auth,async(req,res)=>{
     if(req.user.role!=='merchant'&&req.user.role!=='admin'){

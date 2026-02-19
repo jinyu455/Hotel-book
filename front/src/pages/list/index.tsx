@@ -1,16 +1,16 @@
 import {useState,useEffect} from 'react'
-import {View,Text,Image,Button,Navigator,Picker,ScrollView,Checkbox,CheckboxGroup} from '@tarojs/components'
+import {View,Text,Image,Navigator,ScrollView,Checkbox,CheckboxGroup} from '@tarojs/components'
 import Taro,{useReachBottom} from '@tarojs/taro'
 import './list.scss'
-import { isReadable } from 'stream'
+
 interface Hotel{
-    _id:string
-    name:string
-    images:string[]
-    city:string
-    star:number
-    address:string
-    price:number 
+    _id:string,
+    name:string,
+    images:string[],
+    city:string,
+    star:number,
+    address:string,
+    price:number, 
     facilities:string[]
 }
 const List=()=>{
@@ -166,7 +166,7 @@ const List=()=>{
 
             <ScrollView className='hotel-list' scrollY>
                 {hotels.map(hotel=>(
-                    <Navigator key={hotel._id} url={`/pages/detail?id=${hotel._id}&checkIn=${checkIn.toISOString()}&checkOut=${checkOut.toISOString()}`}>
+                    <Navigator key={hotel._id} url={`/pages/detail/index?id=${hotel._id}&checkIn=${checkIn.toISOString()}&checkOut=${checkOut.toISOString()}`}>
                         <View className='hotel-item'>
                             <Image className='hotel-img' src={hotel.images[0]} mode='aspectFill'/>
                             <View className='hotel-info'>

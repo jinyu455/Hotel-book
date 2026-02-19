@@ -40,7 +40,7 @@ const Home=()=>{
             <Swiper className='banner-swiper' autoplay circular indicatorDots indicatorColor='#999' indicatorActiveColor='#fff'>
                 {banners.map((hotel)=>(
                     <SwiperItem key={hotel._id}>
-                        <Navigator url={`/pages/detail?id=${hotel._id}`}>
+                        <Navigator url={`/pages/detail/index?id=${hotel._id}`}>
                             <Image className='banner-img' src={hotel.images[0]} mode='aspectFill'/>
                             <View className='banner-title'>{hotel.name}</View>
                         </Navigator>
