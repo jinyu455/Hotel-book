@@ -4,7 +4,7 @@ const Hotel=require('../models/Hotel');
 const auth=require('../middleware/auth');
 
 router.get('/',async(req,res)=>{
-    const{city,star,minPrice,maxPrice}=req.query;
+    const{city,star,minPrice,maxPrice,facilities,keyword,page=1,pageSize=10}=req.query;
     let filter={status:'approved'};
     if(city)filter.city=city;
     if(star){
@@ -14,9 +14,23 @@ router.get('/',async(req,res)=>{
     if(minPrice&&maxPrice){
         filter['rooms.price']={$gte:minPrice,$lte:maxPrice};
     }
-    const hotels=await Hotel.find(filter);
-    res.json(hotels);
-});
+    if(facilities){
+        const facilitiesArray=facilities.split(',');
+        filter.facilities={$all:facilitiesArray};
+    }
+    if(keyword){
+        filter.name={$regex:keyword,$options:'i'};
+    }
+    try{
+        const currentPage=Number(page);
+        const limit=Number(pageSize);
+        const skip=(currentPage-1)*limit;
+        const hotels=await Hotel.find(filter).skip(skip).limit(limit);//分页
+        res.json(hotels);
+    }catch(e){
+        res.status(500).json({msg:'查询失败',e});
+    }
+});//查酒店
 
 router.post('/',auth,async(req,res)=>{
     if(req.user.role!=='merchant'&&req.user.role!=='admin'){
