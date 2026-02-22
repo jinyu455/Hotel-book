@@ -10,11 +10,13 @@ const authRouter = require('./routes/auth');
 const hotelsRouter = require('./routes/hotels');
 const ordersRouter = require('./routes/orders');
 const reviewsRouter = require('./routes/reviews');
+const uploadRouter = require('./routes/upload');
 
 app.use('/api/auth', authRouter);
 app.use('/api/hotels', hotelsRouter);
 app.use('/api/orders', ordersRouter);
 app.use('/api/reviews', reviewsRouter);
+app.use('/api/upload', uploadRouter);
 
 const PORT=5000;
 app.listen(PORT,()=>console.log(`服务器运行在端口${PORT}`));

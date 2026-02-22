@@ -1,200 +1,145 @@
-
-
 .detail-page {
   min-height: 100vh;
-  background-color: #f5f5f5;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  background-color: #f8f9fa;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 
   .banner {
     width: 100%;
-    height: 420rpx;
-    margin-bottom: 24rpx;
+    height: 320px;
 
-    swiper-item {
+    .banner-img {
       width: 100%;
       height: 100%;
-
-      image {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-      }
-    }
-
-    .wx-swiper-dot {
-      width: 12rpx;
-      height: 12rpx;
-      background-color: rgba(255, 255, 255, 0.5);
-      border-radius: 50%;
-      margin: 0 6rpx;
-    }
-
-    .wx-swiper-dot-active {
-      background-color: #fff;
+      object-fit: cover;
     }
   }
 
-  .hotel-info-card {
-    background-color: #fff;
-    border-radius: 16rpx;
-    margin: 0 24rpx 24rpx;
-    padding: 32rpx;
-    box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.06);
+  .info-section {
+    background: #ffffff;
+    margin: 20px;
+    padding: 24px; 
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    min-height: 180px;
 
-    .hotel-name {
-      font-size: 36rpx;
-      font-weight: 600;
-      color: #1a1a1a;
-      margin-bottom: 16rpx;
-      line-height: 1.4;
+    .name {
+      font-size: 36px;
+      font-weight: 700;
+      color: #2d3436;
+      display: block;
+      margin-bottom: 12px;
     }
 
-    .hotel-meta {
-      display: flex;
-      align-items: center;
-      margin-bottom: 20rpx;
-      font-size: 26rpx;
-      color: #666;
+    .star {
+      color: #f39c12;
+      font-size: 24px;
+      margin-bottom: 12px;
 
-      .score {
-        display: flex;
-        align-items: center;
-        margin-right: 24rpx;
-
-        .score-value {
-          color: #ff6b35;
-          font-weight: 600;
-          margin-right: 8rpx;
-        }
-      }
-
-      .location {
-        display: flex;
-        align-items: center;
-
-        .icon {
-          margin-right: 8rpx;
-        }
+      .star-icon {
+        margin-right: 4px;
       }
     }
 
-    .hotel-desc {
-      font-size: 28rpx;
-      color: #333;
+    .address {
+      font-size: 20px;
+      color: #636e72;
+      display: block;
+      margin-bottom: 20px;
       line-height: 1.6;
     }
+
+    .facilities {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+
+      .facility-tag {
+        background: rgba(52, 152, 219, 0.1);
+        color: #3498db;
+        padding: 8px 16px;
+        border-radius: 20px;
+        font-size: 18px;
+        font-weight: 500;
+      }
+    }
   }
 
-  .room-list {
-    background-color: #fff;
-    border-radius: 16rpx;
-    margin: 0 24rpx 24rpx;
-    padding: 32rpx;
-    box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.06);
+  .rooms-section {
+    background: #ffffff;
+    margin: 0 20px 20px;
+    padding: 24px;
+    padding-bottom: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    min-height: 200px; 
 
     .section-title {
-      font-size: 32rpx;
+      font-size: 32px;
       font-weight: 600;
-      color: #1a1a1a;
-      margin-bottom: 24rpx;
+      color: #2d3436;
+      margin-bottom: 20px;
+      display: block;
     }
 
     .room-item {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 24rpx 0;
-      border-bottom: 1rpx solid #eee;
+      padding: 20px 0;
+      border: 1px solid #f0f0f0;
 
       &:last-child {
         border-bottom: none;
       }
 
-      .room-info {
+      .room-type {
+        font-size: 24px;
+        color: #2d3436;
         flex: 1;
-
-        .room-name {
-          font-size: 30rpx;
-          color: #1a1a1a;
-          margin-bottom: 12rpx;
-        }
-
-        .room-features {
-          display: flex;
-          flex-wrap: wrap;
-          gap: 12rpx;
-          margin-bottom: 12rpx;
-
-          .feature-tag {
-            font-size: 22rpx;
-            color: #666;
-            background-color: #f5f5f5;
-            padding: 4rpx 12rpx;
-            border-radius: 8rpx;
-          }
-        }
-
-        .room-price {
-          font-size: 32rpx;
-          color: #ff6b35;
-          font-weight: 600;
-
-          .price-unit {
-            font-size: 24rpx;
-            color: #999;
-            font-weight: 400;
-          }
-        }
       }
 
-      .book-btn {
-        background-color: #ff6b35;
-        color: #fff;
-        font-size: 26rpx;
-        padding: 12rpx 24rpx;
-        border-radius: 24rpx;
-        white-space: nowrap;
+      .room-price {
+        font-size: 20px;
+        font-weight: 700;
+        color: #e74c3c;
+        margin-right: 16px;
+      }
+
+      .room-stock {
+        font-size: 24px;
+        color: #636e72;
       }
     }
   }
 
-  .loading {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 60vh;
-    color: #999;
-    font-size: 28rpx;
+  .intro-section {
+    background: #ffffff;
+    margin: 0 20px 20px;
+    padding: 24px;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    min-height: 150px; /* 设置最小高度 */
 
-    .loading-icon {
-      width: 60rpx;
-      height: 60rpx;
-      border: 4rpx solid #f5f5f5;
-      border-top: 4rpx solid #ff6b35;
-      border-radius: 50%;
-      animation: spin 1s linear infinite;
-      margin-bottom: 24rpx;
+    .section-title {
+      font-size: 32px;
+      font-weight: 600;
+      color: #2d3436;
+      margin-bottom: 16px;
+      display: block;
     }
-  }
 
-  .empty {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 60vh;
-    color: #999;
-    font-size: 28rpx;
-
-    .empty-icon {
-      font-size: 80rpx;
-      margin-bottom: 24rpx;
+    .intro {
+      font-size: 24px;
+      color: #636e72;
+      line-height: 1.8;
     }
   }
 }
 
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+// 独立的状态组件
+.loading, .empty {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 60vh;
+  color: #636e72;
+  font-size: 24px;
 }

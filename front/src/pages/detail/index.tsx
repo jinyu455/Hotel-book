@@ -91,9 +91,4 @@ const HotelDetail=()=>{
     )
 }
 
-HotelDetail.config={
-    navigationBarTitleText:'酒店详情',
-    navigationBarBackBUttonHidden:false
-}
-
 export default HotelDetail;

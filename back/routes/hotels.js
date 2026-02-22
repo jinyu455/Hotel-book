@@ -68,6 +68,29 @@ router.post('/',auth,async(req,res)=>{
     res.status(201).json(hotel);
 });//商户创建酒店
 
+router.get('/merchant',auth,async(req,res)=>{
+    try{
+        const hotels=await Hotel.find({merchantId:req.user.id});
+        res.json(hotels);
+    }catch(e){
+        res.status(500).json({msg:'查询失败',e});
+    }
+});//商户查询自己酒店
+
+router.put('/:id',auth,async(req,res)=>{
+    try{
+        const hotel=await Hotel.findById(req.params.id);
+        if(!hotel)return res.status(404).json({msg:'酒店不存在'});
+        if(hotel.merchantId.toString()!==req.user.id&&req.user.role!=='admin'){
+            return res.status(403).json({msg:'无权限'});
+        }
+        const updateHotel= await Hotel.findByIdAndUpdate(req.params.id,req.body,{new:true});
+        res.json(updateHotel);
+    }catch(e){
+        res.status(500).json({msg:'更新失败'});
+    }
+});//商户更新酒店信息
+
 router.put('/:id/audit',auth,async(req,res)=>{
     if(req.user.role!=='admin'){
         return res.status(403).json({msg:'仅管理员可以审核'});
@@ -80,4 +103,5 @@ router.put('/:id/audit',auth,async(req,res)=>{
     );
     res.json(hotel);
 })//审核
+
 module.exports=router;

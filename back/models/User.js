@@ -8,11 +8,11 @@ const userSchema= new mongoose.Schema({
     phone:String,
 },{timestamps:true});
 
-userSchema.pre('save',function(next){
+userSchema.pre('save',async function(){
     const user =this;
-    if(!user.isModified('password'))return next();
-    user.password=crypto.createHash('md5').update(user.password).digest('hex');
-    next();
+    if(user.isModified('password')){
+        user.password=crypto.createHash('md5').update(user.password).digest('hex');
+    }
 })//加密
 
 userSchema.methods.comparePassword=function(password){

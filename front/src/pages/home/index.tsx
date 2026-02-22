@@ -82,6 +82,6 @@ const Home=()=>{
                 <Button className='search-btn' onClick={handleSearch}>查询酒店</Button>
             </View>
         </View>
-    )   
+    )
 }
 export default Home;
