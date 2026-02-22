@@ -28,6 +28,7 @@ router.post('/login',async(req,res)=>{
             token,
             user:{id:user._id,username:user.username,role:user.role}
         })
+        console.log('登陆成功')
     }catch(e){
         res.status(400).json(e);
     }

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import Taro from "@tarojs/taro";
 import { View, Text, Button } from '@tarojs/components'
-import './index.scss'
+import './list.scss'
 
 interface Room {
   type: string,
@@ -29,6 +29,12 @@ interface Hotel {
 
 const HotelList = () => {
   const [hotels, setHotels] = useState<Hotel[]>([]);
+
+  useEffect(() => {
+  const user = Taro.getStorageSync('user');
+  console.log('当前登录用户:', user);
+}, []);
+
 
   useEffect(() => {
     fetchMyHotels();
@@ -63,7 +69,7 @@ const HotelList = () => {
     <View className="hotel-list-page">
       <Button className="create-btn" onClick={handleCreate}>新建酒店</Button>
 
-      {hotels.length === 0 ? (
+      {!Array.isArray(hotels)||hotels.length === 0 ? (
         <View className="empty-tip">
           <Text>暂无酒店，点击上方按钮创建</Text>
         </View>

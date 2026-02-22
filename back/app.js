@@ -18,5 +18,10 @@ app.use('/api/orders', ordersRouter);
 app.use('/api/reviews', reviewsRouter);
 app.use('/api/upload', uploadRouter);
 
+app.use((err, req, res, next) => {
+  console.error('❌ 全局错误:', err.stack);
+  res.status(500).json({ msg: '服务器内部错误', error: err.message });
+});
+
 const PORT=5000;
 app.listen(PORT,()=>console.log(`服务器运行在端口${PORT}`));

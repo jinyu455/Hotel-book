@@ -2,6 +2,7 @@ const express=require('express');
 const router=express.Router();
 const Hotel=require('../models/Hotel');
 const auth=require('../middleware/auth');
+const {ObjectId}=require('mongoose').Types
 
 router.get('/',async(req,res)=>{
     const{city,star,minPrice,maxPrice,facilities,keyword,page=1,pageSize=10}=req.query;
@@ -43,6 +44,17 @@ router.get('/',async(req,res)=>{
     }
 });//筛查全部酒店
 
+router.get('/merchant',auth,async(req,res)=>{
+    try{
+        console.log('开始获取');
+        const hotels=await Hotel.find({merchantId:req.user.id});
+        res.json(hotels||[]);
+    }catch(e){
+        console.error('查询失败',e);
+        res.status(200).json([]);
+    }
+});//商户查询自己酒店
+
 router.get('/:id',async(req,res)=>{
     try{
         const hotel=await Hotel.findById(req.params.id);
@@ -68,14 +80,6 @@ router.post('/',auth,async(req,res)=>{
     res.status(201).json(hotel);
 });//商户创建酒店
 
-router.get('/merchant',auth,async(req,res)=>{
-    try{
-        const hotels=await Hotel.find({merchantId:req.user.id});
-        res.json(hotels);
-    }catch(e){
-        res.status(500).json({msg:'查询失败',e});
-    }
-});//商户查询自己酒店
 
 router.put('/:id',auth,async(req,res)=>{
     try{
