@@ -146,7 +146,7 @@ const List=()=>{
                 <View className='filter-section'>
                     <Text className='section-title'>酒店星级</Text>
                     <View className='star-options'>
-                        {[5,4,3,2].map(s=>(
+                        {[5,4,3,2,1].map(s=>(
                             <View key={s} className={`star-btn ${star.includes(s)?'active':''}`} onClick={()=>handleStarChange(s)}>{s}星</View>
                         ))}
                     </View>

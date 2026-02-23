@@ -31,12 +31,6 @@ const HotelList = () => {
   const [hotels, setHotels] = useState<Hotel[]>([]);
 
   useEffect(() => {
-  const user = Taro.getStorageSync('user');
-  console.log('当前登录用户:', user);
-}, []);
-
-
-  useEffect(() => {
     fetchMyHotels();
   }, []);
 

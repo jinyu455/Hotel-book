@@ -1,4 +1,4 @@
 export default{
-    navigationBarTitleText:'我的酒店',
+    navigationBarTitleText:'酒店编辑',
     navigationBarBackButtonHidden:false
 }
