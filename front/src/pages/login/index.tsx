@@ -18,8 +18,10 @@ const Login=()=>{
             });
             Taro.setStorageSync('token',res.data.token);
             Taro.setStorageSync('user',res.data.user);
-            if(res.data.user.role==='merchant'||res.data.user.role==='admin'){
+            if(res.data.user.role==='merchant'){
                 Taro.navigateTo({url:'/pages/admin/hotel/list/index'});
+            }else if(res.data.user.role==='admin'){
+                Taro.navigateTo({url:'/pages/admin/hotel/audit/list/index'});
             }else{
                 Taro.navigateTo({url:'/pages/home/index'});
             }

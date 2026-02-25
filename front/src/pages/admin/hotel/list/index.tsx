@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import Taro from "@tarojs/taro";
+import Taro, { useDidShow } from "@tarojs/taro";
 import { View, Text, Button } from '@tarojs/components'
 import './list.scss'
 
@@ -33,6 +33,10 @@ const HotelList = () => {
   useEffect(() => {
     fetchMyHotels();
   }, []);
+
+  useDidShow(() => {
+    fetchMyHotels();
+  });
 
   const fetchMyHotels = async () => {
     try {

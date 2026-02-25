@@ -80,6 +80,22 @@ router.post('/',auth,async(req,res)=>{
     res.status(201).json(hotel);
 });//商户创建酒店
 
+router.delete('/:id', auth, async (req, res) => {
+  try {
+    const hotel = await Hotel.findById(req.params.id);
+    if (!hotel) {
+      return res.status(404).json({ msg: '酒店不存在' });
+    }
+    if (hotel.merchantId.toString() !== req.user.id && req.user.role !== 'admin') {
+      return res.status(403).json({ msg: '无权限删除此酒店' });
+    }
+
+    await Hotel.findByIdAndDelete(req.params.id);
+    res.json({ msg: '删除成功' });
+  } catch (e) {
+    res.status(500).json({ msg: '删除失败', e });
+  }
+});//商户删除自己酒店
 
 router.put('/:id',auth,async(req,res)=>{
     try{
@@ -88,7 +104,8 @@ router.put('/:id',auth,async(req,res)=>{
         if(hotel.merchantId.toString()!==req.user.id&&req.user.role!=='admin'){
             return res.status(403).json({msg:'无权限'});
         }
-        const updateHotel= await Hotel.findByIdAndUpdate(req.params.id,req.body,{new:true});
+        const updataData={...req.body,status:'pending',rejectReason:undefined}
+        const updateHotel= await Hotel.findByIdAndUpdate(req.params.id,updataData,{new:true});
         res.json(updateHotel);
     }catch(e){
         res.status(500).json({msg:'更新失败'});
@@ -107,5 +124,54 @@ router.put('/:id/audit',auth,async(req,res)=>{
     );
     res.json(hotel);
 })//审核
+
+router.get('/admin/audit', auth, async (req, res) => {
+  if (req.user.role !== 'admin') {
+    return res.status(403).json({ msg: '仅管理员可访问审核列表' });
+  }
+
+  const { status, page = 1, pageSize = 10 } = req.query;
+  let filter = {};
+  if (status) filter.status = status;
+
+  try {
+    const currentPage = Number(page);
+    const limit = Number(pageSize);
+    const skip = (currentPage - 1) * limit;
+
+    const total = await Hotel.countDocuments(filter);
+    const hotels = await Hotel.find(filter)
+      .skip(skip)
+      .limit(limit)
+      .populate('merchantId', 'username email'); // 可选：带出商户信息
+
+    res.json({
+      total,
+      page: currentPage,
+      pageSize: limit,
+      data: hotels
+    });
+  } catch (e) {
+    res.status(500).json({ msg: '获取审核列表失败', e });
+  }
+});//管理员审核列表
+
+router.get('/admin/audit/:id', auth, async (req, res) => {
+  if (req.user.role !== 'admin') {
+    return res.status(403).json({ msg: '仅管理员可访问审核详情' });
+  }
+
+  try {
+    const hotel = await Hotel.findById(req.params.id)
+      .populate('merchantId', 'username email');
+    if (!hotel) {
+      return res.status(404).json({ msg: '酒店不存在' });
+    }
+    res.json(hotel);
+  } catch (e) {
+    res.status(500).json({ msg: '获取审核详情失败', e });
+  }
+});//管理员审核某个酒店详情
+
 
 module.exports=router;

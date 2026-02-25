@@ -17,6 +17,7 @@ app.use('/api/hotels', hotelsRouter);
 app.use('/api/orders', ordersRouter);
 app.use('/api/reviews', reviewsRouter);
 app.use('/api/upload', uploadRouter);
+app.use('/uploads',express.static('uploads'));
 
 app.use((err, req, res, next) => {
   console.error('❌ 全局错误:', err.stack);

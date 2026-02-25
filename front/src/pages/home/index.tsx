@@ -70,7 +70,7 @@ const Home=()=>{
                     <Text className='label'>退房</Text>
                     <Picker mode='date' value={checkOut.toISOString().split('T')[0]} onChange={(e)=>{
                         const selected=new Date(e.detail.value);
-                        setCheckIn(selected);
+                        setCheckOut(selected);
                         if(selected<=checkIn){
                             Taro.showToast({title:'退房不能早于入住',icon:'none'});
                             return;

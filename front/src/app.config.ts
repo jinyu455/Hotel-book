@@ -6,7 +6,9 @@ export default defineAppConfig({
     'pages/detail/index',
     'pages/register/index',
     'pages/admin/hotel/list/index',
-    'pages/admin/hotel/edit/index'
+    'pages/admin/hotel/edit/index',
+    'pages/admin/hotel/audit/list/index',
+    'pages/admin/hotel/audit/detail/index'
   ],
   window: {
     backgroundTextStyle: 'light',
