@@ -1,5 +1,5 @@
 import{useState,useEffect}from 'react'
-import{View,Text,Swiper,SwiperItem,Image,ScrollView ,Navigator}from '@tarojs/components'
+import{View,Text,Swiper,SwiperItem,Image,ScrollView }from '@tarojs/components'
 import Taro from '@tarojs/taro'
 import './detail.scss'
 import { type } from 'os'

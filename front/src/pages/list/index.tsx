@@ -42,12 +42,13 @@ const List = () => {
     const checkInParam = routerParams.checkIn;
     const checkOutParam = routerParams.checkOut;
     const keywordParam = routerParams.keyword || '';
+    const decodeKeyword=decodeURIComponent(keywordParam)
 
     setCity(decodeCity);
     if (checkInParam) setCheckIn(new Date(checkInParam));
     if (checkOutParam) setCheckOut(new Date(checkOutParam));
-    setKeyword(keywordParam);
-    fetchHotels(true, decodeCity);
+    setKeyword(decodeKeyword);
+    fetchHotels(true, decodeCity,decodeKeyword);
   }, []);
 
   useEffect(() => {
@@ -55,19 +56,19 @@ const List = () => {
     fetchHotels(true);
   }, [city, filter]);
 
-  const fetchHotels = async (isRefresh = false, externalCity?: string) => {
+  const fetchHotels = async (isRefresh = false, externalCity?: string,externalKeyword?:string) => {
     if (loading || (!hasMore && !isRefresh)) return;
     setLoading(true);
     try {
       const currentPage = isRefresh ? 1 : page;
       const realCity = externalCity ?? city;
-
+      const realKeyword = externalKeyword ?? keyword;
       const res = await Taro.request({
         url: 'http://localhost:5000/api/hotels',
         method: 'GET',
         data: {
           city: realCity,
-          keyword,
+          keyword:realKeyword,
           minPrice: filter.minPrice,
           maxPrice: filter.maxPrice,
           star: filter.star.join(','),
