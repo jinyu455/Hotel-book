@@ -143,17 +143,29 @@ const List = () => {
             <View
               className={`price-btn ${filter.minPrice === 0 && filter.maxPrice === 300 ? 'active' : ''}`}
               onClick={() => {
-                setFilter(prev => ({ ...prev, minPrice: 0, maxPrice: 300 }))
+                if(filter.minPrice === 0 && filter.maxPrice === 300){
+                  setFilter(prev => ({ ...prev, minPrice: 0, maxPrice:2000}))
+                }else{
+                  setFilter(prev => ({ ...prev, minPrice: 0, maxPrice: 300 }))
+                }
               }}>300以下</View>
             <View
               className={`price-btn ${filter.minPrice === 300 && filter.maxPrice === 700 ? 'active' : ''}`}
               onClick={() => {
-                setFilter(prev => ({ ...prev, minPrice: 300, maxPrice: 700 }))
+                if(filter.minPrice === 300 && filter.maxPrice === 700){
+                  setFilter(prev => ({ ...prev, minPrice: 0, maxPrice:2000}))
+                }else{
+                  setFilter(prev => ({ ...prev, minPrice: 300, maxPrice: 700 }))
+                }
               }}>300-700</View>
             <View
               className={`price-btn ${filter.minPrice === 700 && filter.maxPrice === 2000 ? 'active' : ''}`}
               onClick={() => {
-                setFilter(prev => ({ ...prev, minPrice: 700, maxPrice: 2000 }))
+                if(filter.minPrice === 700 && filter.maxPrice === 2000){
+                  setFilter(prev => ({ ...prev, minPrice: 0, maxPrice:2000}))
+                }else{
+                  setFilter(prev => ({ ...prev, minPrice: 700, maxPrice: 2000 }))
+                }
               }}>700以上</View>
           </View>
         </View>
