@@ -60,8 +60,10 @@ const Home=()=>{
                     <Text className='label'>入住</Text>
                     <Picker mode='date' value={checkIn.toISOString().split('T')[0]} onChange={(e)=>{
                         const selected=new Date(e.detail.value);
+                        const selDate=new Date(selected.getFullYear(),selected.getMonth(),selected.getDate());
+                        const outDate=new Date(checkOut.getFullYear(),checkOut.getMonth(),checkOut.getDate());
                         setCheckIn(selected);
-                        if(selected>=checkOut){
+                        if(selDate>=outDate){
                             setCheckOut(new Date(selected.getTime()+86400000));
                         }
                     }}>
@@ -72,6 +74,7 @@ const Home=()=>{
                         const selected=new Date(e.detail.value);
                         setCheckOut(selected);
                         if(selected<=checkIn){
+                            setCheckOut(new Date(selected.getTime()+86400000));
                             Taro.showToast({title:'退房不能早于入住',icon:'none'});
                             return;
                         }

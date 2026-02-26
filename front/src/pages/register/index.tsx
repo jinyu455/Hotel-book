@@ -21,6 +21,15 @@ const Register=()=>{
                     role:'merchant'
                 }
             });
+            if(res.statusCode>=400){
+                const errMsg=res.data?.msg||'登录失败';
+                Taro.showToast({
+                    title:errMsg,
+                    icon:'none',
+                    duration:2000
+                });
+                return;
+            }
             Taro.showToast({title:'注册成功'});
             setTimeout(()=>{
                 Taro.navigateBack();

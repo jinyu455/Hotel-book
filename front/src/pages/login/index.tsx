@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Taro from "@tarojs/taro";
+import Taro, { useDidShow } from "@tarojs/taro";
 import { View, Input, Button ,Text} from "@tarojs/components";
 import './login.scss'
 const Login=()=>{
@@ -16,6 +16,15 @@ const Login=()=>{
                 method:'POST',
                 data:{username,password}
             });
+            if(res.statusCode>=400){
+                const errMsg=res.data?.msg||'登录失败';
+                Taro.showToast({
+                    title:errMsg,
+                    icon:'none',
+                    duration:2000
+                })
+                return;
+            }
             Taro.setStorageSync('token',res.data.token);
             Taro.setStorageSync('user',res.data.user);
             if(res.data.user.role==='merchant'){
@@ -29,6 +38,11 @@ const Login=()=>{
             Taro.showToast({title:'登录失败',icon:'none'});
         }
     };
+
+    useDidShow(()=>{
+        setUsername('');
+        setPassword('');
+    })
 
     const goRegister=()=>{
         Taro.navigateTo({url:'/pages/register/index'});
