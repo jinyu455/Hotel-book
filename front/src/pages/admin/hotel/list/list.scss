@@ -44,11 +44,23 @@
       background-color: #fafafa;
     }
 
+    .hotel-info{
+      display: flex;
+      flex-direction: column;
+      gap:10rpx;
+    }
+
     .hotel-name {
       font-size: 32rpx;
       font-weight: 500;
       color: #333;
       line-height: 1.5;
+    }
+
+    .reject-reason{
+      font-size: 24rpx;
+      color: #ff3b30;
+      line-height: 1.4;
     }
 
     .hotel-status {

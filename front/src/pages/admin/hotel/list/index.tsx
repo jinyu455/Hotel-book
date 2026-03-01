@@ -79,10 +79,16 @@ const HotelList = () => {
               className="hotel-item"
               onClick={() => handleEdit(hotel._id)}
             >
-              <Text className="hotel-name">{hotel.name}</Text>
+              <View className="hotel-info">
+                <Text className="hotel-name">{hotel.name}</Text>
+                {hotel.status==='rejected'&&hotel.rejectReason&&(
+                  <Text className="reject-reason">拒绝原因：{hotel.rejectReason}</Text>
+                )}
+              </View>
               <Text className={`hotel-status ${hotel.status}`}>
                 {hotel.status === 'pending' ? '待审核' : 
-                 hotel.status === 'approved' ? '已通过' : '已拒绝'}
+                 hotel.status === 'approved' ? '已通过' : 
+                 hotel.status === 'rejected'? '已拒绝':'已下线'}
               </Text>
             </View>
           ))}
