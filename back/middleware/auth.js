@@ -14,7 +14,7 @@ module.exports = (req, res, next) => {
     const decoded = jwt.verify(token, 'your-secret-key');
     console.log('✅ JWT 验证成功，decoded:', decoded);
     req.user = decoded;
-    next(); // 放行
+    next();
   } catch (e) {
     console.log('❌ JWT 验证失败:', e.message);
     res.status(401).json({ msg: '无效token' });

@@ -46,7 +46,6 @@ router.get('/',async(req,res)=>{
 
 router.get('/merchant',auth,async(req,res)=>{
     try{
-        console.log('开始获取');
         const hotels=await Hotel.find({merchantId:req.user.id});
         res.json(hotels||[]);
     }catch(e){

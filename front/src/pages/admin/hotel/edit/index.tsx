@@ -193,11 +193,27 @@ const HotelEdit = () => {
     }
   };
 
-  const removeImage = (index: number) => {
-    setForm(prev => ({
+  const removeImage =async(index: number) => {
+    const imageUrl=form.images[index];
+    if(!imageUrl)return;
+    try{
+      const filename=imageUrl.split('/uploads/')[1];
+      if(!filename)throw new Error('文件名解析失败');
+      console.log(`http:localhost:5000/api/upload/${filename}`);
+      await Taro.request({
+        url:`http://localhost:5000/api/upload/${filename}`,
+        method:'DELETE'
+      })
+      setForm(prev => ({
       ...prev,
       images: prev.images.filter((_, i) => i !== index)
-    }));
+      }));
+      Taro.showToast({title:'删除成功',icon:'success'});
+    }catch(e){
+      console.error(e);
+      Taro.showToast({title:'删除失败',icon:'none'});
+    }
+    
   };
 
 
